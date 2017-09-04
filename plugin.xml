@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="finger-print-scanner-plugin"
+        version="1.0.0">
+          <name> Finger Print Scanner Plugin</name>
+          <description>Plugin to access external fingerprint scanning hardware device</description>
+          <license>MIT</license>
+          <keywords>Biometric scanner, Fingerprint scanner device,</keywords>
+          <repo></repo>
+          <issue></issue>
+
+          <platform name="abdroid">
+            <js-module src="www/plugin.js" name="plugin">
+                <runs/>
+                <clobbers target="FingerPrintScannerPlugin">
+            </js-module>
+            <config-file target="res/xml/config.xml" parent="/*">
+                <feature name="FingerPrintScannerPlugin">
+                  <param name="android-package" value="com.metacampus.scanner.FingerPrintScannerPlugin"/>
+                  <param name="onload" value="true"/>
+                </feature>
+
+            </config-file>
+            <source-file src="src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" target-dir="src/com/metacampus/scanner/"/>
+
+          </platform>
+        </plugin>
