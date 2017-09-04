@@ -9,10 +9,10 @@
           <repo></repo>
           <issue></issue>
 
-          <platform name="abdroid">
+          <platform name="android">
             <js-module src="www/plugin.js" name="plugin">
                 <runs/>
-                <clobbers target="FingerPrintScannerPlugin">
+                <clobbers target="FingerPrintScannerPlugin"/>
             </js-module>
             <config-file target="res/xml/config.xml" parent="/*">
                 <feature name="FingerPrintScannerPlugin">

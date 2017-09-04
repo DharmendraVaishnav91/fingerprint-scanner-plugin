@@ -1,0 +1,27 @@
+{
+  "name": "custom-fingerprint-plugin",
+  "version": "1.0.0",
+  "description": "Plugin to access external fingerprint scanning hardware device",
+  "cordova": {
+    "id": "finger-print-scanner-plugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DharmendraVaishnav91/fingerprint-scanner-plugin.git"
+  },
+  "keywords": [
+    "Biometric scanner",
+    "Fingerprint scanner device",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Dharmendra Vaishnav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DharmendraVaishnav91/fingerprint-scanner-plugin/issues"
+  },
+  "homepage": "https://github.com/DharmendraVaishnav91/fingerprint-scanner-plugin#readme"
+}
