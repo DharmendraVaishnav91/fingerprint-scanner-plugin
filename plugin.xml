@@ -12,7 +12,7 @@
           <platform name="android">
             <js-module src="www/plugin.js" name="plugin">
                 <runs/>
-                <clobbers target="FingerPrintScannerPlugin"/>
+                <clobbers target="window.FingerPrintScannerPlugin"/>
             </js-module>
             <config-file target="res/xml/config.xml" parent="/*">
                 <feature name="FingerPrintScannerPlugin">
@@ -21,7 +21,71 @@
                 </feature>
 
             </config-file>
-            <source-file src="src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" target-dir="src/com/metacampus/scanner/"/>
+              <config-file target="res/xml/device_filter.xml" parent="/*">
+                  <resources>
+                      <!--SecuGen SDU03P 0x1162 0x1000-->
+                      <usb-device vendor-id="4450" product-id="4096" />
+                      <!--SecuGen SDU04P  0x1162 0x2000-->
+                      <usb-device vendor-id="4450" product-id="8192" />
+                      <!--SecuGen U20  0x1162 0x2200-->
+                      <usb-device	vendor-id="4450" product-id="8704" />
+                      <!--SecuGen UPx  0x1162 0x2201-->
+                      <usb-device	vendor-id="4450" product-id="8705" />
+                  </resources>
+
+              </config-file>
+              <config-file target="AndroidManifest.xml" parent="/manifest">
+                  <uses-feature android:name="android.hardware.usb.host" />
+
+                  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+                  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+                  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+              </config-file>
+              <config-file target="AndroidManifest.xml" parent="/manifest/application">
+                  <activity
+                      android:name="com.metacampus.scanner.FingerPrintScannerHandlerActivity"
+                      android:label="Enroll and Verify Fingerprint"
+                      android:screenOrientation="nosensor">
+                      <intent-filter>
+                          <category android:name="android.intent.category.DEFAULT" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </config-file>
+
+                <source-file src="src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" target-dir="src/com/metacampus/scanner/"/>
+                <source-file src="src/libs/FDxSDKProAndroid.jar" target-dir="libs"/>
+                <source-file src="src/libs/armeabi/libjnisgfdetect.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfdetectfdu06.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfdu03.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfdu04.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfdu05.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfdu06.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgfplib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgnfiqlib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libjnisgwsqlib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/libs/armeabi/libsgfpamx.so" target-dir="libs/armeabi"/>
+
+                <source-file src="src/libs/x86/libjnisgfdetect.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfdetectfdu06.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfdu03.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfdu04.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfdu05.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfdu06.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgfplib.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgnfiqlib.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libjnisgwsqlib.so" target-dir="libs/x86"/>
+                <source-file src="src/libs/x86/libsgfpamx.so" target-dir="libs/x86"/>
+
+                <source-file src="src/raw/ansi378_0_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/raw/ansi378_1_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/raw/ansi378_2_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/raw/finger_0_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/raw/finger_1_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/raw/finger_2_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/raw/raw2wsq_finger.raw" target-dir="res/raw"/>
+                <source-file src="src/raw/wsq2raw_finger.wsq" target-dir="res/raw"/>
+
 
           </platform>
         </plugin>

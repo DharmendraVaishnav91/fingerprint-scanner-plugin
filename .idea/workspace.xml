@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="427d5ee8-52ab-4c9c-919c-1b3ee40b3f5c" name="Default" comment="" />
+    <list default="true" id="427d5ee8-52ab-4c9c-919c-1b3ee40b3f5c" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/FDxSDKProAndroid.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdetect.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdetectfdu06.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdu03.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdu04.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdu05.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfdu06.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgfplib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgnfiqlib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libjnisgwsqlib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/armeabi/libsgfpamx.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdetect.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdetectfdu06.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdu03.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdu04.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdu05.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfdu06.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgfplib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgnfiqlib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libjnisgwsqlib.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/libs/x86/libsgfpamx.so" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/ansi378_0_10_3_windows.ansi378" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/ansi378_1_10_3_windows.ansi378" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/ansi378_2_10_3_windows.ansi378" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/finger_0_10_3.raw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/finger_1_10_3.raw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/finger_2_10_3.raw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/raw2wsq_finger.raw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/raw/wsq2raw_finger.wsq" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/android/FingerPrintScannerHandlerActivity.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plugin.xml" afterPath="$PROJECT_DIR$/plugin.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/FingerPrintScannerPlugin.java" afterPath="$PROJECT_DIR$/src/android/FingerPrintScannerPlugin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/plugin.js" afterPath="$PROJECT_DIR$/www/plugin.js" />
+    </list>
     <ignored path="com.metacampus.fingerprintScanner.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,12 +56,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FingerPrintScannerPlugin.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="92">
+            <state relative-caret-position="511">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FingerPrintScannerPlugin.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/android/FingerPrintScannerPlugin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="plugin.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/www/plugin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FingerPrintScannerHandlerActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/android/FingerPrintScannerHandlerActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2823">
+              <caret line="326" column="40" selection-start-line="326" selection-start-column="40" selection-end-line="326" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#13041#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#3181#3182#0" expanded="true" />
+                <element signature="e#3218#3219#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -44,12 +115,16 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" />
+        <option value="$PROJECT_DIR$/src/android/FingerPrintScannerHandlerActivity.java" />
+        <option value="$PROJECT_DIR$/plugin.xml" />
+        <option value="$PROJECT_DIR$/www/plugin.js" />
+        <option value="$PROJECT_DIR$/src/android/FingerPrintScannerPlugin.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="width" value="1378" />
+    <option name="x" value="26" />
+    <option name="width" value="1254" />
     <option name="height" value="735" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -59,7 +134,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -77,10 +152,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane />
       </pane>
@@ -93,8 +164,68 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.metacampus.fingerprintScanner" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -102,6 +233,13 @@
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Metacampus\custom-fingerprint-plugin\com.metacampus.fingerprintScanner\src\android" />
+      <recent name="D:\Metacampus\custom-fingerprint-plugin\com.metacampus.fingerprintScanner\src\android\libs" />
+      <recent name="D:\Metacampus\custom-fingerprint-plugin\com.metacampus.fingerprintScanner\src\android\libs\armeabi" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -371,8 +509,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1378" height="735" extended-state="0" />
-    <editor active="false" />
+    <frame x="26" y="0" width="1254" height="735" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -382,7 +520,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18174343" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -424,6 +562,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -435,6 +581,43 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/android/FingerPrintScannerHandlerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2823">
+          <caret line="326" column="40" selection-start-line="326" selection-start-column="40" selection-end-line="326" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#13041#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3181#3182#0" expanded="true" />
+            <element signature="e#3218#3219#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/plugin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/android/FingerPrintScannerPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding />
         </state>
       </provider>
