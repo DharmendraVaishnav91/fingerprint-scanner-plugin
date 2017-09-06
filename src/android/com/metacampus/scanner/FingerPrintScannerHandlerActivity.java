@@ -304,51 +304,51 @@ public class FingerPrintScannerHandlerActivity extends Activity implements SGFin
     public void SGFingerPresentCallback (){
 		//Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
 		autoOn.stop();
-		fingerDetectedHandler.sendMessage(new Message());
+		//fingerDetectedHandler.sendMessage(new Message());
     }
 
     /**
      * This method capture the fingerprint of user and store in temporary variable buffer which is byte []
       */
-    public byte[] CaptureFingerPrint(){
-		//this.mCheckBoxMatched.setChecked(false);
-        int imageHeight,imageWidth,imageDPI;
-	    byte[] buffer = new byte[mImageWidth*mImageHeight];
-        int[] maxTemplateSize=new int[1];
-        byte[] registerTemplate, registerImage;
-	    //long result = sgfplib.GetImage(buffer);
-	    long result = sgfplib.GetImageEx(buffer, 10000,50);
-      //  mImageViewFingerprint.setImageBitmap(this.toGrayscale(buffer));
-        buffer = null;
+      public byte[] captureFingerPrint() {
+          //this.mCheckBoxMatched.setChecked(false);
+          int imageHeight, imageWidth, imageDPI;
+         //byte[] buffer = new byte[imageWidth * imageHeight];
+          int[] maxTemplateSize = new int[1];
+          byte[] registerTemplate, registerImage;
+          //long result = sgfplib.GetImage(buffer);
+         // long result = sgfplib.GetImageEx(buffer, 10000, 50);
+          //  mImageViewFingerprint.setImageBitmap(this.toGrayscale(buffer));
+         // buffer = null;
 
-        //ON resume has persmission code
-        long error = sgfplib.OpenDevice(0);
-        if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
-            bSecuGenDeviceOpened = true;
-            SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
-            error = sgfplib.GetDeviceInfo(deviceInfo);
-            imageWidth = deviceInfo.imageWidth;
-            imageHeight= deviceInfo.imageHeight;
-            imageDPI = deviceInfo.imageDPI;
-            sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-            sgfplib.GetMaxTemplateSize(maxTemplateSize);
+          //ON resume has persmission code
+          long error = sgfplib.OpenDevice(0);
+          if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
+              bSecuGenDeviceOpened = true;
+              SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
+              error = sgfplib.GetDeviceInfo(deviceInfo);
+              imageWidth = deviceInfo.imageWidth;
+              imageHeight = deviceInfo.imageHeight;
+              imageDPI = deviceInfo.imageDPI;
+              sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+              sgfplib.GetMaxTemplateSize(maxTemplateSize);
 
-            //Need to be setup up locally
-            registerTemplate = new byte[maxTemplateSize[0]];
-            //mVerifyTemplate = new byte[maxTemplateSize[0]];
-            registerImage = new byte[imageWidth * imageHeight];
-            long result = sgfplib.GetImage(registerImage);
-            //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
-            result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-            SGFingerInfo fpInfo = new SGFingerInfo();
-            for (int i = 0; i < registerTemplate.length; ++i)
-                registerTemplate[i] = 0;
+              //Need to be setup up locally
+              registerTemplate = new byte[maxTemplateSize[0]];
+              //mVerifyTemplate = new byte[maxTemplateSize[0]];
+              registerImage = new byte[imageWidth * imageHeight];
+              long result = sgfplib.GetImage(registerImage);
+              //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
+              result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+              SGFingerInfo fpInfo = new SGFingerInfo();
+              for (int i = 0; i < registerTemplate.length; ++i)
+                  registerTemplate[i] = 0;
 
-            result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate)
-            return registerTemplate;
-        }
-        else {
-           return null;
-        }
-	}
+              result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
+              return registerTemplate;
+          } else {
+              return null;
+          }
+      }
+
 }

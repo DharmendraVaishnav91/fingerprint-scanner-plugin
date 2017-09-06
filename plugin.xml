@@ -54,37 +54,37 @@
               </config-file>
 
                 <source-file src="src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" target-dir="src/com/metacampus/scanner/"/>
-                <source-file src="src/libs/FDxSDKProAndroid.jar" target-dir="libs"/>
-                <source-file src="src/libs/armeabi/libjnisgfdetect.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfdetectfdu06.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfdu03.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfdu04.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfdu05.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfdu06.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgfplib.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgnfiqlib.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libjnisgwsqlib.so" target-dir="libs/armeabi"/>
-                <source-file src="src/libs/armeabi/libsgfpamx.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/FDxSDKProAndroid.jar" target-dir="libs"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdetect.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdetectfdu06.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdu03.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdu04.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdu05.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfdu06.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgfplib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgnfiqlib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libjnisgwsqlib.so" target-dir="libs/armeabi"/>
+                <source-file src="src/android/libs/armeabi/libsgfpamx.so" target-dir="libs/armeabi"/>
 
-                <source-file src="src/libs/x86/libjnisgfdetect.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfdetectfdu06.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfdu03.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfdu04.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfdu05.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfdu06.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgfplib.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgnfiqlib.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libjnisgwsqlib.so" target-dir="libs/x86"/>
-                <source-file src="src/libs/x86/libsgfpamx.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdetect.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdetectfdu06.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdu03.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdu04.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdu05.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfdu06.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgfplib.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgnfiqlib.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libjnisgwsqlib.so" target-dir="libs/x86"/>
+                <source-file src="src/android/libs/x86/libsgfpamx.so" target-dir="libs/x86"/>
 
-                <source-file src="src/raw/ansi378_0_10_3_windows.ansi378" target-dir="res/raw"/>
-                <source-file src="src/raw/ansi378_1_10_3_windows.ansi378" target-dir="res/raw"/>
-                <source-file src="src/raw/ansi378_2_10_3_windows.ansi378" target-dir="res/raw"/>
-                <source-file src="src/raw/finger_0_10_3.raw" target-dir="res/raw"/>
-                <source-file src="src/raw/finger_1_10_3.raw" target-dir="res/raw"/>
-                <source-file src="src/raw/finger_2_10_3.raw" target-dir="res/raw"/>
-                <source-file src="src/raw/raw2wsq_finger.raw" target-dir="res/raw"/>
-                <source-file src="src/raw/wsq2raw_finger.wsq" target-dir="res/raw"/>
+                <source-file src="src/android/raw/ansi378_0_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/android/raw/ansi378_1_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/android/raw/ansi378_2_10_3_windows.ansi378" target-dir="res/raw"/>
+                <source-file src="src/android/raw/finger_0_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/android/raw/finger_1_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/android/raw/finger_2_10_3.raw" target-dir="res/raw"/>
+                <source-file src="src/android/raw/raw2wsq_finger.raw" target-dir="res/raw"/>
+                <source-file src="src/android/raw/wsq2raw_finger.wsq" target-dir="res/raw"/>
 
 
           </platform>

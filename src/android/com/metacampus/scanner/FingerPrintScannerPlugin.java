@@ -59,7 +59,7 @@ import android.util.Log;
 
 import java.util.Date;
 
-public class FingerPrintScannerPlugin extends CordovaPlugin {
+public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerPresentEvent {
 
     private static final String TAG = "FingerPrintScannerPlugin";
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
@@ -82,22 +82,24 @@ public class FingerPrintScannerPlugin extends CordovaPlugin {
     }
     @Override
     protected void pluginInitialize() {
-        super.pluginInitialize();
-        mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-        filter = new IntentFilter(ACTION_USB_PERMISSION);
-        //Uncomm
-        registerReceiver(mUsbReceiver, filter);
-        sgfplib = new JSGFPLib((UsbManager) getSystemService(Context.USB_SERVICE));
-        // this.mToggleButtonSmartCapture.toggle();
-        bSecuGenDeviceOpened = false;
-        usbPermissionRequested = false;
-        mAutoOnEnabled = false;
-        autoOn = new SGAutoOnEventNotifier(sgfplib, this);
-    }
+          super.pluginInitialize();
+        Context context = cordova.getActivity()
+          .getApplicationContext();
+          mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+          filter = new IntentFilter(ACTION_USB_PERMISSION);
+          //Uncomm
+          context.registerReceiver(mUsbReceiver, filter);
+          sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
+          // this.mToggleButtonSmartCapture.toggle();
+          bSecuGenDeviceOpened = false;
+          usbPermissionRequested = false;
+          mAutoOnEnabled = false;
+        //  autoOn = new SGAutoOnEventNotifier(sgfplib, context);
+      }
 
 
     @Override
-    public boolean execute(String action, JSONArray args, final CallbackContext CallbackContext) throws JSONException {
+    public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("scan")) {
             byte[] capturedByteData=captureFingerPrint();
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
@@ -105,7 +107,12 @@ public class FingerPrintScannerPlugin extends CordovaPlugin {
         }
         return true;
     }
-
+    
+    public void SGFingerPresentCallback (){
+    //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
+      autoOn.stop();
+    //fingerDetectedHandler.sendMessage(new Message());
+    }
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -120,18 +127,18 @@ public class FingerPrintScannerPlugin extends CordovaPlugin {
                 }
             }
         }
-    }
+    };
 
     public byte[] captureFingerPrint() {
         //this.mCheckBoxMatched.setChecked(false);
         int imageHeight, imageWidth, imageDPI;
-        byte[] buffer = new byte[mImageWidth * mImageHeight];
+       //byte[] buffer = new byte[imageWidth * imageHeight];
         int[] maxTemplateSize = new int[1];
         byte[] registerTemplate, registerImage;
         //long result = sgfplib.GetImage(buffer);
-        long result = sgfplib.GetImageEx(buffer, 10000, 50);
+       // long result = sgfplib.GetImageEx(buffer, 10000, 50);
         //  mImageViewFingerprint.setImageBitmap(this.toGrayscale(buffer));
-        buffer = null;
+       // buffer = null;
 
         //ON resume has persmission code
         long error = sgfplib.OpenDevice(0);
@@ -156,7 +163,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin {
             for (int i = 0; i < registerTemplate.length; ++i)
                 registerTemplate[i] = 0;
 
-            result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate)
+            result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
             return registerTemplate;
         } else {
             return null;
