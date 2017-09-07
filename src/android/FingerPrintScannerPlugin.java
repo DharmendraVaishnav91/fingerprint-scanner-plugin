@@ -82,21 +82,25 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     }
     @Override
     protected void pluginInitialize() {
-          super.pluginInitialize();
-        Context context = cordova.getActivity()
-          .getApplicationContext();
-          mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-          filter = new IntentFilter(ACTION_USB_PERMISSION);
-          //Uncomm
-          context.registerReceiver(mUsbReceiver, filter);
-          sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
-          // this.mToggleButtonSmartCapture.toggle();
-          bSecuGenDeviceOpened = false;
-          usbPermissionRequested = false;
-          mAutoOnEnabled = false;
-        //  autoOn = new SGAutoOnEventNotifier(sgfplib, context);
-      }
+      super.pluginInitialize();
+      Context context = cordova.getActivity()
+        .getApplicationContext();
+      ContextWrapper contextWrapper = new ContextWrapper(context);
+      mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+      filter = new IntentFilter(ACTION_USB_PERMISSION);
+      //Uncomm
+      contextWrapper.registerReceiver(mUsbReceiver, filter);
+      sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
+      UsbDevice usbDevice = sgfplib.GetUsbDevice();
 
+
+        // this.mToggleButtonSmartCapture.toggle();
+        bSecuGenDeviceOpened = false;
+        usbPermissionRequested = false;
+        mAutoOnEnabled = false;
+        //  autoOn = new SGAutoOnEventNotifier(sgfplib, context);
+
+    }
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
@@ -122,7 +126,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                         if (device != null) {
                         }
-                    } else
+                    }
                     //sLog.e(TAG, "mUsbReceiver.onReceive() permission denied for device " + device);
                 }
             }
@@ -130,45 +134,70 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     };
 
     public byte[] captureFingerPrint() {
+      long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
+      UsbDevice usbDevice = sgfplib.GetUsbDevice();
+      boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+      if (!hasPermission) {
+        if (!usbPermissionRequested) {
+          //Log.d(TAG, "Call GetUsbManager().requestPermission()");
+          usbPermissionRequested = true;
+          sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
+        } else {
+          //wait up to 20 seconds for the system to grant USB permission
+          hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+          int i = 0;
+          while ((hasPermission == false) && (i <= 40)) {
+            ++i;
+            hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+            try {
+              Thread.sleep(500);
+            } catch (InterruptedException e) {
+              e.printStackTrace();
+            }
+            //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
+          }
+        }
+      }
         //this.mCheckBoxMatched.setChecked(false);
         int imageHeight, imageWidth, imageDPI;
-       //byte[] buffer = new byte[imageWidth * imageHeight];
+        //byte[] buffer = new byte[imageWidth * imageHeight];
         int[] maxTemplateSize = new int[1];
         byte[] registerTemplate, registerImage;
         //long result = sgfplib.GetImage(buffer);
-       // long result = sgfplib.GetImageEx(buffer, 10000, 50);
+        // long result = sgfplib.GetImageEx(buffer, 10000, 50);
         //  mImageViewFingerprint.setImageBitmap(this.toGrayscale(buffer));
-       // buffer = null;
+        // buffer = null;
 
         //ON resume has persmission code
-        long error = sgfplib.OpenDevice(0);
+        error = sgfplib.OpenDevice(0);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
-            bSecuGenDeviceOpened = true;
-            SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
-            error = sgfplib.GetDeviceInfo(deviceInfo);
-            imageWidth = deviceInfo.imageWidth;
-            imageHeight = deviceInfo.imageHeight;
-            imageDPI = deviceInfo.imageDPI;
-            sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-            sgfplib.GetMaxTemplateSize(maxTemplateSize);
+          bSecuGenDeviceOpened = true;
+          SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
+          error = sgfplib.GetDeviceInfo(deviceInfo);
+          imageWidth = deviceInfo.imageWidth;
+          imageHeight = deviceInfo.imageHeight;
+          imageDPI = deviceInfo.imageDPI;
+          sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+          sgfplib.GetMaxTemplateSize(maxTemplateSize);
 
-            //Need to be setup up locally
-            registerTemplate = new byte[maxTemplateSize[0]];
-            //mVerifyTemplate = new byte[maxTemplateSize[0]];
-            registerImage = new byte[imageWidth * imageHeight];
-            long result = sgfplib.GetImage(registerImage);
-            //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
-            result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-            SGFingerInfo fpInfo = new SGFingerInfo();
-            for (int i = 0; i < registerTemplate.length; ++i)
-                registerTemplate[i] = 0;
+          //Need to be setup up locally
+          registerTemplate = new byte[maxTemplateSize[0]];
+          //mVerifyTemplate = new byte[maxTemplateSize[0]];
+          registerImage = new byte[imageWidth * imageHeight];
+          long result = sgfplib.GetImage(registerImage);
+          //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
+          result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+          SGFingerInfo fpInfo = new SGFingerInfo();
+          for (int i = 0; i < registerTemplate.length; ++i)
+            registerTemplate[i] = 0;
 
-            result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
-            return registerTemplate;
+          result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
+          return registerTemplate;
         } else {
-            return null;
+          return null;
         }
-    }
+      }
+
 
 
 }

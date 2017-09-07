@@ -82,7 +82,6 @@ public class FingerPrintScannerHandlerActivity extends Activity implements SGFin
     					if(device != null){
     					}
     				}
-    				else
     					//sLog.e(TAG, "mUsbReceiver.onReceive() permission denied for device " + device);
     			}
     		}
