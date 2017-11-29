@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="427d5ee8-52ab-4c9c-919c-1b3ee40b3f5c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" afterPath="$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java" />
     </list>
     <ignored path="com.metacampus.fingerprintScanner.iws" />
@@ -57,9 +56,10 @@
         <entry file="file://$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="498">
-              <caret line="235" column="0" lean-forward="true" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+              <caret line="238" column="0" lean-forward="true" selection-start-line="238" selection-start-column="0" selection-end-line="238" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1511956778212" expanded="false" signature="4603:4692" ph="onReceive(context, intent) → {" />
+                <marker date="1511956778212" expanded="false" signature="5252:5263" ph="}" />
               </folding>
             </state>
           </provider>
@@ -321,7 +321,7 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1511956491666" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1511956794363" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -369,7 +369,7 @@
       </Profilers>
       <method>
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1511956491666" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1511956794363" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -642,7 +642,8 @@
         <state relative-caret-position="3383">
           <caret line="199" column="47" lean-forward="true" selection-start-line="199" selection-start-column="47" selection-end-line="199" selection-end-column="47" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1511956778212" expanded="false" signature="4603:4692" ph="onReceive(context, intent) → {" />
+            <marker date="1511956778212" expanded="false" signature="5252:5263" ph="}" />
           </folding>
         </state>
       </provider>
@@ -804,9 +805,10 @@
     <entry file="file://$PROJECT_DIR$/src/android/com/metacampus/scanner/FingerPrintScannerPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="498">
-          <caret line="235" column="0" lean-forward="true" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
+          <caret line="238" column="0" lean-forward="true" selection-start-line="238" selection-start-column="0" selection-end-line="238" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1511956778212" expanded="false" signature="4603:4692" ph="onReceive(context, intent) → {" />
+            <marker date="1511956778212" expanded="false" signature="5252:5263" ph="}" />
           </folding>
         </state>
       </provider>
