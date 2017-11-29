@@ -106,7 +106,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("scan")) {
             byte[] capturedByteData=captureFingerPrint();
-            final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
+            final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData.toString());
             callbackContext.sendPluginResult(result);
         }
         return true;
