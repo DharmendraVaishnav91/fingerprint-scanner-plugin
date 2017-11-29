@@ -58,6 +58,7 @@ import SecuGen.FDxSDKPro.SGWSQLib;
 import android.util.Log;
 
 import java.util.Date;
+import android.util.Base64;
 
 public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerPresentEvent {
 
@@ -104,8 +105,13 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        if (action.equals("scan")) {
-            byte[] capturedByteData=captureFingerPrint();
+        if (action.equals("scanBase64")) {
+            String capturedByteData=captureFingerPrint("base64");
+            final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
+            callbackContext.sendPluginResult(result);
+        }
+        else if (action.equals("scanImage")) {
+            byte[] capturedByteData=captureFingerPrint("image");
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
             callbackContext.sendPluginResult(result);
         }
@@ -133,7 +139,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         }
     };
 
-    public byte[] captureFingerPrint() {
+    public <T> T captureFingerPrint(String scannedImageType) {
       long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
       UsbDevice usbDevice = sgfplib.GetUsbDevice();
       boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
@@ -185,19 +191,40 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
           //mVerifyTemplate = new byte[maxTemplateSize[0]];
           registerImage = new byte[imageWidth * imageHeight];
           long result = sgfplib.GetImage(registerImage);
+          ByteArrayOutputStream bao = new ByteArrayOutputStream();
+          if(scannedImageType=="base64"){
+              this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
+              byte [] ba = bao.toByteArray();
+              String imageString=Base64.encodeToString(ba, Base64.DEFAULT);
+              return imageString;
+          }
+          else if(scannedImageType=="image"){
+              this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
+              return bao.toByteArray();
+          }
           //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
-          result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-          SGFingerInfo fpInfo = new SGFingerInfo();
-          for (int i = 0; i < registerTemplate.length; ++i)
-            registerTemplate[i] = 0;
-
-          result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
-          return registerTemplate;
+//          result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+//          SGFingerInfo fpInfo = new SGFingerInfo();
+//          for (int i = 0; i < registerTemplate.length; ++i)
+//            registerTemplate[i] = 0;
+//          result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
+//          return registerTemplate;
         } else {
           return null;
         }
       }
 
+    public Bitmap toGrayscale(byte[] mImageBuffer) {
 
+        byte[] Bits = new byte[mImageBuffer.length * 4];
+        for (int i = 0; i < mImageBuffer.length; i++) {
+            Bits[i * 4] = Bits[i * 4 + 1] = Bits[i * 4 + 2] = mImageBuffer[i]; // Invert the source bits
+            Bits[i * 4 + 3] = -1;// 0xff, that's the alpha.
+        }
 
+        Bitmap bmpGrayscale = Bitmap.createBitmap(mImageWidth, mImageHeight, Bitmap.Config.ARGB_8888);
+        //Bitmap bm contains the fingerprint img
+        bmpGrayscale.copyPixelsFromBuffer(ByteBuffer.wrap(Bits));
+        return bmpGrayscale;
+    }
 }
