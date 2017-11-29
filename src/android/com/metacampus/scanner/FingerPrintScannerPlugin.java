@@ -107,6 +107,11 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (action.equals("checkAndOptPermission")) {
+            boolean checkPermission = checkAndOptPermission();
+            final PluginResult result = new PluginResult(PluginResult.Status.OK, checkPermission);
+            callbackContext.sendPluginResult(result);
+        }
         if (action.equals("scanBase64")) {
             String capturedByteData=captureFingerPrint("base64");
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
@@ -142,30 +147,6 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     };
 
     public <T> T captureFingerPrint(String scannedImageType) {
-        long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
-        UsbDevice usbDevice = sgfplib.GetUsbDevice();
-        boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-        if (!hasPermission) {
-            if (!usbPermissionRequested) {
-                //Log.d(TAG, "Call GetUsbManager().requestPermission()");
-                usbPermissionRequested = true;
-                sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
-            } else {
-                //wait up to 20 seconds for the system to grant USB permission
-                hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-                int i = 0;
-                while ((hasPermission == false) && (i <= 40)) {
-                    ++i;
-                    hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
-                }
-            }
-        }
         //this.mCheckBoxMatched.setChecked(false);
         int imageHeight, imageWidth, imageDPI;
         //byte[] buffer = new byte[imageWidth * imageHeight];
@@ -215,7 +196,34 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         return null;
     }
 
-
+    public void checkAndOptPermission(){
+        long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
+        UsbDevice usbDevice = sgfplib.GetUsbDevice();
+        boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+        if (!hasPermission) {
+            if (!usbPermissionRequested) {
+                //Log.d(TAG, "Call GetUsbManager().requestPermission()");
+                usbPermissionRequested = true;
+                sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
+            } else {
+                //wait up to 20 seconds for the system to grant USB permission
+                hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+                int i = 0;
+                while ((hasPermission == false) && (i <= 40)) {
+                    ++i;
+                    hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+                    if(hasPermission)
+                        return true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
+                }
+            }
+        }
+    }
     public Bitmap toGrayscale(byte[] mImageBuffer) {
 
         byte[] Bits = new byte[mImageBuffer.length * 4];
