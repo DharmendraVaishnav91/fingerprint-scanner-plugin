@@ -16,7 +16,7 @@ FingerPrintScannerPlugin.scanImage=function(successCb,failureCb){
     exec(successCb,failureCb,PLUGIN_NAME,'scanImage',[]);
 }
 FingerPrintScannerPlugin.checkAndOptPermission=function(successCb,failureCb){
-    exec(successCb,failureCb,PLUGIN_NAME,'',[]);
+    exec(successCb,failureCb,PLUGIN_NAME,'checkAndOptPermission',[]);
 }
 
 module.exports=FingerPrintScannerPlugin
