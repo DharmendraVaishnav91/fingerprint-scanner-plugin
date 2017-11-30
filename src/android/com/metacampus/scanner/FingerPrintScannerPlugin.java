@@ -158,7 +158,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         // buffer = null;
 
         //ON resume has persmission code
-        error = sgfplib.OpenDevice(0);
+        long error = sgfplib.OpenDevice(0);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
             bSecuGenDeviceOpened = true;
             SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
@@ -196,7 +196,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         return null;
     }
 
-    public void checkAndOptPermission(){
+    public boolean checkAndOptPermission(){
         long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
         UsbDevice usbDevice = sgfplib.GetUsbDevice();
         boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
@@ -223,6 +223,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
                 }
             }
         }
+        return hasPermission;
     }
     public Bitmap toGrayscale(byte[] mImageBuffer) {
 
