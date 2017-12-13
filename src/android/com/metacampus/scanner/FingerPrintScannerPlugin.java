@@ -117,16 +117,9 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
                 final PluginResult result = new PluginResult(PluginResult.Status.OK, checkPermission);
                 callbackContext.sendPluginResult(result);
             }
-            catch(NullPointerException e){
-                checkPermission.put("result","");
-                checkPermission.put("status",1);
-                checkPermission.put("error","Please check that whether device is connected or not.");
-                final PluginResult result = new PluginResult(PluginResult.Status.ERROR, checkPermission);
-                callbackContext.sendPluginResult(result);
-            }
             catch(Exception e){
                 checkPermission.put("result","");
-                checkPermission.put("status",2);
+                checkPermission.put("status",1);
                 checkPermission.put("error",e);
                 final PluginResult result = new PluginResult(PluginResult.Status.ERROR, checkPermission);
                 callbackContext.sendPluginResult(result);
@@ -208,7 +201,17 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     public boolean checkAndOptPermission(){
         long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
         UsbDevice usbDevice = sgfplib.GetUsbDevice();
+//        long deviceErrors = sgfplib.OpenDevice(0);
+        if((usbDevice==null) || (error != SGFDxErrorCode.SGFDX_ERROR_NONE))
+            return false;
+//        if (usbDevice==null)
+
         boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+        SGDeviceInfoParam device_info;
+        System.out.println(sgfplib.OpenDevice(0));
+
+
+//        System.out.println(sgfplib.GetDeviceInfo(device_info));
         if (!hasPermission) {
             sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
             hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
@@ -221,6 +224,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    System.out.println(e);
                     e.printStackTrace();
                 }
                 //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
