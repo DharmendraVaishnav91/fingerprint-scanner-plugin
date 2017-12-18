@@ -59,8 +59,11 @@ import android.util.Log;
 
 import java.util.Date;
 import android.util.Base64;
-public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerPresentEvent {
+import java.io.ByteArrayOutputStream;
 
+public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerPresentEvent {
+    private int mImageWidth;
+    private int mImageHeight;
     private static final String TAG = "FingerPrintScannerPlugin";
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     private PendingIntent mPermissionIntent;
@@ -82,16 +85,16 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     }
     @Override
     protected void pluginInitialize() {
-      super.pluginInitialize();
-      Context context = cordova.getActivity()
-        .getApplicationContext();
-      ContextWrapper contextWrapper = new ContextWrapper(context);
-      mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-      filter = new IntentFilter(ACTION_USB_PERMISSION);
-      //Uncomm
-      contextWrapper.registerReceiver(mUsbReceiver, filter);
-      sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
-      UsbDevice usbDevice = sgfplib.GetUsbDevice();
+        super.pluginInitialize();
+        Context context = cordova.getActivity()
+                .getApplicationContext();
+        ContextWrapper contextWrapper = new ContextWrapper(context);
+        mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        filter = new IntentFilter(ACTION_USB_PERMISSION);
+        //Uncomm
+        contextWrapper.registerReceiver(mUsbReceiver, filter);
+        sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
+        UsbDevice usbDevice = sgfplib.GetUsbDevice();
 
 
         // this.mToggleButtonSmartCapture.toggle();
@@ -104,12 +107,30 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (action.equals("checkAndOptPermission")) {
+//            boolean checkPermission=false;
+            JSONObject checkPermission = new JSONObject();
+            try{
+                checkPermission.put("result",checkAndOptPermission());
+                checkPermission.put("status",0);
+                checkPermission.put("error","");
+                final PluginResult result = new PluginResult(PluginResult.Status.OK, checkPermission);
+                callbackContext.sendPluginResult(result);
+            }
+            catch(Exception e){
+                checkPermission.put("result","");
+                checkPermission.put("status",1);
+                checkPermission.put("error",e);
+                final PluginResult result = new PluginResult(PluginResult.Status.ERROR, checkPermission);
+                callbackContext.sendPluginResult(result);
+            }
+        }
         if (action.equals("scanBase64")) {
             String capturedByteData=captureFingerPrint("base64");
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
             callbackContext.sendPluginResult(result);
         }
-        else if (action.equals("scanImage")) {
+        if (action.equals("scanImage")) {
             byte[] capturedByteData=captureFingerPrint("image");
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
             callbackContext.sendPluginResult(result);
@@ -118,9 +139,9 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     }
 
     public void SGFingerPresentCallback (){
-    //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
-      autoOn.stop();
-    //fingerDetectedHandler.sendMessage(new Message());
+        //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
+        autoOn.stop();
+        //fingerDetectedHandler.sendMessage(new Message());
     }
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -139,79 +160,91 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     };
 
     public <T> T captureFingerPrint(String scannedImageType) {
-      long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
-      UsbDevice usbDevice = sgfplib.GetUsbDevice();
-      boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-      if (!hasPermission) {
-        if (!usbPermissionRequested) {
-          //Log.d(TAG, "Call GetUsbManager().requestPermission()");
-          usbPermissionRequested = true;
-          sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
-        } else {
-          //wait up to 20 seconds for the system to grant USB permission
-          hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-          int i = 0;
-          while ((hasPermission == false) && (i <= 40)) {
-            ++i;
-            hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
-            try {
-              Thread.sleep(500);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
-          }
-        }
-      }
         //this.mCheckBoxMatched.setChecked(false);
         int imageHeight, imageWidth, imageDPI;
         //byte[] buffer = new byte[imageWidth * imageHeight];
         int[] maxTemplateSize = new int[1];
         byte[] registerTemplate, registerImage;
-        //long result = sgfplib.GetImage(buffer);
-        // long result = sgfplib.GetImageEx(buffer, 10000, 50);
-        //  mImageViewFingerprint.setImageBitmap(this.toGrayscale(buffer));
-        // buffer = null;
 
         //ON resume has persmission code
-        error = sgfplib.OpenDevice(0);
+        long error = sgfplib.OpenDevice(0);
         if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
-          bSecuGenDeviceOpened = true;
-          SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
-          error = sgfplib.GetDeviceInfo(deviceInfo);
-          imageWidth = deviceInfo.imageWidth;
-          imageHeight = deviceInfo.imageHeight;
-          imageDPI = deviceInfo.imageDPI;
-          sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-          sgfplib.GetMaxTemplateSize(maxTemplateSize);
+            bSecuGenDeviceOpened = true;
+            SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
+            error = sgfplib.GetDeviceInfo(deviceInfo);
+            mImageWidth = deviceInfo.imageWidth;
+            mImageHeight = deviceInfo.imageHeight;
+            imageDPI = deviceInfo.imageDPI;
+            sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+            sgfplib.GetMaxTemplateSize(maxTemplateSize);
 
-          //Need to be setup up locally
-          registerTemplate = new byte[maxTemplateSize[0]];
-          //mVerifyTemplate = new byte[maxTemplateSize[0]];
-            registerImage = new byte[imageWidth * imageHeight];
+            //Need to be setup up locally
+            registerTemplate = new byte[maxTemplateSize[0]];
+            //mVerifyTemplate = new byte[maxTemplateSize[0]];
+            registerImage = new byte[mImageWidth * mImageHeight];
             long result = sgfplib.GetImage(registerImage);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
             if(scannedImageType=="base64"){
                 this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
                 byte [] ba = bao.toByteArray();
                 String imageString=Base64.encodeToString(ba, Base64.DEFAULT);
-                return imageString;
+                return (T) imageString;
             }
             else if(scannedImageType=="image"){
                 this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
-                return bao.toByteArray();
+                return (T) bao.toByteArray();
             }
-            //sgfplib.WriteData(SGFDxConstant.WRITEDATA_COMMAND_ENABLE_SMART_CAPTURE, (byte)0);
-//          result = sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-//          SGFingerInfo fpInfo = new SGFingerInfo();
-//          for (int i = 0; i < registerTemplate.length; ++i)
-//            registerTemplate[i] = 0;
-//          result = sgfplib.CreateTemplate(fpInfo, registerImage, registerTemplate);
-//          return registerTemplate;
-        } else {
-            return null;
         }
-      }
+        return null;
+    }
+
+    public boolean checkAndOptPermission(){
+        long error = sgfplib.Init( SGFDxDeviceName.SG_DEV_AUTO);
+        UsbDevice usbDevice = sgfplib.GetUsbDevice();
+//        long deviceErrors = sgfplib.OpenDevice(0);
+        if((usbDevice==null) || (error != SGFDxErrorCode.SGFDX_ERROR_NONE))
+            return false;
+//        if (usbDevice==null)
+
+        boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+        SGDeviceInfoParam device_info;
+        System.out.println(sgfplib.OpenDevice(0));
+
+
+//        System.out.println(sgfplib.GetDeviceInfo(device_info));
+        if (!hasPermission) {
+            sgfplib.GetUsbManager().requestPermission(usbDevice, mPermissionIntent);
+            hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+            int i = 0;
+            while ((hasPermission == false) && (i <= 40)) {
+                ++i;
+                hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
+                if(hasPermission)
+                    return true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    System.out.println(e);
+                    e.printStackTrace();
+                }
+                //Log.d(TAG, "Waited " + i*50 + " milliseconds for USB permission");
+            }
+        }
+        return hasPermission;
+    }
+    public Bitmap toGrayscale(byte[] mImageBuffer) {
+
+        byte[] Bits = new byte[mImageBuffer.length * 4];
+        for (int i = 0; i < mImageBuffer.length; i++) {
+            Bits[i * 4] = Bits[i * 4 + 1] = Bits[i * 4 + 2] = mImageBuffer[i]; // Invert the source bits
+            Bits[i * 4 + 3] = -1;// 0xff, that's the alpha.
+        }
+
+        Bitmap bmpGrayscale = Bitmap.createBitmap(mImageWidth, mImageHeight, Bitmap.Config.ARGB_8888);
+        //Bitmap bm contains the fingerprint img
+        bmpGrayscale.copyPixelsFromBuffer(ByteBuffer.wrap(Bits));
+        return bmpGrayscale;
+    }
 
 
 
