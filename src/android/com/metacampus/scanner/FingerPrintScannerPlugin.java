@@ -60,6 +60,8 @@ import android.util.Log;
 import java.util.Date;
 import android.util.Base64;
 import java.io.ByteArrayOutputStream;
+import android.support.v4.content.LocalBroadcastManager;
+
 
 public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerPresentEvent {
     private int mImageWidth;
@@ -101,12 +103,19 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         bSecuGenDeviceOpened = false;
         usbPermissionRequested = false;
         mAutoOnEnabled = false;
-        //  autoOn = new SGAutoOnEventNotifier(sgfplib, context);
-
+        autoOn = new SGAutoOnEventNotifier(sgfplib, this);
+        autoOn.start();
     }
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (action.equals("toggleAutoOn")) {
+            String phrase = args.getString(0);
+            String output = autoOn.start();
+            System.out.println(output);
+            final PluginResult result = new PluginResult(PluginResult.Status.OK, true);
+            callbackContext.sendPluginResult(result);
+        }
         if (action.equals("checkAndOptPermission")) {
 //            boolean checkPermission=false;
             JSONObject checkPermission = new JSONObject();
@@ -138,10 +147,28 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         return true;
     }
 
+    public Handler fingerDetectedHandler = new Handler(){
+        // @Override
+        public void handleMessage(Message msg) {
+            //Handle the message
+            Context context = cordova.getActivity()
+                    .getApplicationContext();
+            String capturedByteData=captureFingerPrint("base64");
+            System.out.println("capturedByteData");
+            System.out.println(capturedByteData);
+            final Intent intent = new Intent("getFingerPrintImage");
+            Bundle b = new Bundle();
+            b.putString( "data", capturedByteData );
+            intent.putExtras( b);
+            LocalBroadcastManager.getInstance(context).sendBroadcastSync(intent);
+        }
+    };
+
     public void SGFingerPresentCallback (){
         //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
+        System.out.println("SGFingerPresentCallback is called");
         autoOn.stop();
-        //fingerDetectedHandler.sendMessage(new Message());
+        fingerDetectedHandler.sendMessage(new Message());
     }
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
