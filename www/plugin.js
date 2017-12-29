@@ -18,8 +18,8 @@ FingerPrintScannerPlugin.scanImage=function(successCb,failureCb){
 FingerPrintScannerPlugin.checkAndOptPermission=function(successCb,failureCb){
     exec(successCb,failureCb,PLUGIN_NAME,'checkAndOptPermission',[]);
 }
-FingerPrintScannerPlugin.toggleAutoOn=function(successCb,failureCb){
-    exec(successCb,failureCb,PLUGIN_NAME,'toggleAutoOn',[true]);
+FingerPrintScannerPlugin.toggleAutoOn=function(status,successCb,failureCb){
+    exec(successCb,failureCb,PLUGIN_NAME,'toggleAutoOn',[status]);
 }
 
 module.exports=FingerPrintScannerPlugin
