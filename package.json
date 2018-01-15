@@ -1,9 +1,9 @@
 {
   "name": "custom-fingerprint-plugin",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "Plugin to access external fingerprint scanning hardware device",
   "cordova": {
-    "id": "finger-print-scanner-plugin",
+    "id": "custom-fingerprint-plugin",
     "platforms": [
       "android"
     ]
