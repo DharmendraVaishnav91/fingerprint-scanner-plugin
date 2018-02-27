@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="custom-fingerprint-plugin"
-        version="1.1">
+        version="1.0">
           <name> Custom Fingerprint Plugin</name>
           <description>Plugin to access external fingerprint scanning hardware device</description>
           <license>MIT</license>
@@ -21,6 +21,17 @@
                 </feature>
 
             </config-file>
+			  <config-file target="AndroidManifest.xml" parent="/manifest/application">
+                  <activity
+                      android:name="com.metacampus.scanner.FingerPrintScannerHandlerActivity"
+                      android:label="Enroll and Verify Fingerprint"
+                      android:screenOrientation="nosensor">
+                      <intent-filter>
+                          <category android:name="android.intent.category.DEFAULT" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </config-file>
               <config-file target="res/xml/device_filter.xml" parent="/*">
                   <resources>
                       <!--SecuGen SDU03P 0x1162 0x1000-->
