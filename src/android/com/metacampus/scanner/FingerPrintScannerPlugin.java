@@ -111,10 +111,14 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         if (action.equals("toggleAutoOn")) {
             String status = args.getString(0);
             Long output;
-            if(status=="true")
+            if(status=="true"){
+                sgfplib.SetLedOn(true);
                 output = autoOn.start();
-            else
+            }
+            else{
+                sgfplib.SetLedOn(false);
                 output = autoOn.stop();
+            }
 //            Long output = autoOn.start();
 //            System.out.println(output);
             final PluginResult result = new PluginResult(PluginResult.Status.OK, output);
