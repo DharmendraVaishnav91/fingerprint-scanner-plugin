@@ -112,11 +112,11 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
             String status = args.getString(0);
             Long output;
             if(status=="true"){
-                sgfplib.SetLedOn(true);
+//                sgfplib.SetLedOn(true);
                 output = autoOn.start();
             }
             else{
-                sgfplib.SetLedOn(false);
+//                sgfplib.SetLedOn(false);
                 output = autoOn.stop();
             }
 //            Long output = autoOn.start();
@@ -164,13 +164,18 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
             Context context = cordova.getActivity()
                     .getApplicationContext();
             String capturedByteData=captureFingerPrint("base64");
-            System.out.println("capturedByteData");
-            System.out.println(capturedByteData);
-            final Intent intent = new Intent("getFingerPrintImage");
-            Bundle b = new Bundle();
-            b.putString( "data", capturedByteData );
-            intent.putExtras( b);
-            LocalBroadcastManager.getInstance(context).sendBroadcastSync(intent);
+//            System.out.println("capturedByteData");
+//            System.out.println(capturedByteData);
+            if(capturedByteData.length()>=10000){
+                final Intent intent = new Intent("getFingerPrintImage");
+                Bundle b = new Bundle();
+                b.putString( "data", capturedByteData );
+                intent.putExtras( b);
+                LocalBroadcastManager.getInstance(context).sendBroadcastSync(intent);
+            }else{
+                System.out.println("Blank image found");
+            }
+
         }
     };
 
@@ -178,7 +183,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
         System.out.println("SGFingerPresentCallback is called");
         fingerDetectedHandler.sendMessage(new Message());
-        autoOn.stop();
+//        autoOn.stop();
     }
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
