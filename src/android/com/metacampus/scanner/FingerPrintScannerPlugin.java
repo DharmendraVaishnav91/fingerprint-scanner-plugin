@@ -79,6 +79,9 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
     private boolean bSecuGenDeviceOpened;
     private JSGFPLib sgfplib;
     private boolean usbPermissionRequested;
+    public Long startTime;
+    public Long endTime;
+    public Long deviceOpenError;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -97,8 +100,6 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         contextWrapper.registerReceiver(mUsbReceiver, filter);
         sgfplib = new JSGFPLib((UsbManager) context.getSystemService(Context.USB_SERVICE));
         UsbDevice usbDevice = sgfplib.GetUsbDevice();
-
-
         // this.mToggleButtonSmartCapture.toggle();
         bSecuGenDeviceOpened = false;
         usbPermissionRequested = false;
@@ -111,10 +112,17 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         if (action.equals("toggleAutoOn")) {
             String status = args.getString(0);
             Long output;
-            if(status=="true")
+            if(status=="true"){
+//                sgfplib.SetLedOn(true);
                 output = autoOn.start();
-            else
+              // deviceOpenError = sgfplib.OpenDevice(0);
+            }
+            else{
+//                sgfplib.SetLedOn(false);
                 output = autoOn.stop();
+                ///deviceOpenError = sgfplib.closeDevice(0);
+
+            }
 //            Long output = autoOn.start();
 //            System.out.println(output);
             final PluginResult result = new PluginResult(PluginResult.Status.OK, output);
@@ -127,7 +135,9 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
                 checkPermission.put("result",checkAndOptPermission());
                 checkPermission.put("status",0);
                 checkPermission.put("error","");
-//                if(checkPermission["result"])
+               if(checkPermission.getBoolean("result"))
+                 deviceOpenError = sgfplib.OpenDevice(0);
+
 //                    autoOn.start();
                 final PluginResult result = new PluginResult(PluginResult.Status.OK, checkPermission);
                 callbackContext.sendPluginResult(result);
@@ -141,40 +151,48 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
             }
         }
         if (action.equals("scanBase64")) {
-            String capturedByteData=captureFingerPrint("base64");
+            String capturedByteData=captureFingerPrint();
             final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
             callbackContext.sendPluginResult(result);
         }
-        if (action.equals("scanImage")) {
-            byte[] capturedByteData=captureFingerPrint("image");
-            final PluginResult result = new PluginResult(PluginResult.Status.OK, capturedByteData);
-            callbackContext.sendPluginResult(result);
-        }
-        return true;
+      return true;
     }
 
     public Handler fingerDetectedHandler = new Handler(){
         // @Override
         public void handleMessage(Message msg) {
             //Handle the message
+          System.out.println("Time difference of callback invoke=  "+ (System.currentTimeMillis()-startTime) );
             Context context = cordova.getActivity()
                     .getApplicationContext();
-            String capturedByteData=captureFingerPrint("base64");
-            System.out.println("capturedByteData");
-            System.out.println(capturedByteData);
-            final Intent intent = new Intent("getFingerPrintImage");
-            Bundle b = new Bundle();
-            b.putString( "data", capturedByteData );
-            intent.putExtras( b);
-            LocalBroadcastManager.getInstance(context).sendBroadcastSync(intent);
+            String capturedByteData=captureFingerPrint();
+            endTime=System.currentTimeMillis();
+            System.out.println("System capture end time: "+System.currentTimeMillis());
+          System.out.println("Time difference=  "+ (endTime-startTime));
+//            System.out.println("capturedByteData");
+//            System.out.println(capturedByteData);
+           /// if(capturedByteData.length()>=10000){
+                final Intent intent = new Intent("getFingerPrintImage");
+                Bundle b = new Bundle();
+                b.putString( "data", capturedByteData );
+                intent.putExtras( b);
+                LocalBroadcastManager.getInstance(context).sendBroadcastSync(intent);
+           //     autoOn.start();
+//            }else{
+//                System.out.println("Blank image found");
+//            }
+
         }
     };
 
     public void SGFingerPresentCallback (){
+        startTime=System.currentTimeMillis();
+        System.out.println("System capture start time: "+startTime);
         //Toast.makeText(JSGDActivity.this,"finger present callback is called",Toast.LENGTH_LONG).show();
         System.out.println("SGFingerPresentCallback is called");
+         //autoOn.stop();
         fingerDetectedHandler.sendMessage(new Message());
-        autoOn.stop();
+       autoOn.stop();
     }
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -192,41 +210,34 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
         }
     };
 
-    public <T> T captureFingerPrint(String scannedImageType) {
-        //this.mCheckBoxMatched.setChecked(false);
-        int imageHeight, imageWidth, imageDPI;
-        //byte[] buffer = new byte[imageWidth * imageHeight];
+    public <T> T captureFingerPrint() {
+        int imageHeight, imageWidth;
         int[] maxTemplateSize = new int[1];
         byte[] registerTemplate, registerImage;
 
         //ON resume has persmission code
-        long error = sgfplib.OpenDevice(0);
-        if (error == SGFDxErrorCode.SGFDX_ERROR_NONE) {
+
+        if (deviceOpenError == SGFDxErrorCode.SGFDX_ERROR_NONE) {
             bSecuGenDeviceOpened = true;
             SGDeviceInfoParam deviceInfo = new SGDeviceInfoParam();
-            error = sgfplib.GetDeviceInfo(deviceInfo);
+            deviceOpenError = sgfplib.GetDeviceInfo(deviceInfo);
             mImageWidth = deviceInfo.imageWidth;
             mImageHeight = deviceInfo.imageHeight;
-            imageDPI = deviceInfo.imageDPI;
-            sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
-            sgfplib.GetMaxTemplateSize(maxTemplateSize);
+            //imageDPI = deviceInfo.imageDPI;
+            //sgfplib.SetTemplateFormat(SGFDxTemplateFormat.TEMPLATE_FORMAT_SG400);
+           // sgfplib.GetMaxTemplateSize(maxTemplateSize);
 
             //Need to be setup up locally
-            registerTemplate = new byte[maxTemplateSize[0]];
+           // registerTemplate = new byte[maxTemplateSize[0]];
             //mVerifyTemplate = new byte[maxTemplateSize[0]];
             registerImage = new byte[mImageWidth * mImageHeight];
-            long result = sgfplib.GetImage(registerImage);
+            long result = sgfplib.GetImageEx(registerImage,5000,50);
             ByteArrayOutputStream bao = new ByteArrayOutputStream();
-            if(scannedImageType=="base64"){
-                this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
-                byte [] ba = bao.toByteArray();
-                String imageString=Base64.encodeToString(ba, Base64.DEFAULT);
-                return (T) imageString;
-            }
-            else if(scannedImageType=="image"){
-                this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
-                return (T) bao.toByteArray();
-            }
+            this.toGrayscale(registerImage).compress(Bitmap.CompressFormat.JPEG, 100, bao);
+            byte [] ba = bao.toByteArray();
+            Long captureEndTime=System.currentTimeMillis();
+            String imageString=Base64.encodeToString(ba, Base64.DEFAULT);
+            return (T) imageString;
         }
         return null;
     }
@@ -241,7 +252,7 @@ public class FingerPrintScannerPlugin extends CordovaPlugin implements SGFingerP
 
         boolean hasPermission = sgfplib.GetUsbManager().hasPermission(usbDevice);
         SGDeviceInfoParam device_info;
-        System.out.println(sgfplib.OpenDevice(0));
+      //  System.out.println(sgfplib.OpenDevice(0));
 
 
 //        System.out.println(sgfplib.GetDeviceInfo(device_info));

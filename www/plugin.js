@@ -12,9 +12,7 @@ var FingerPrintScannerPlugin=function(){
 FingerPrintScannerPlugin.scanBase64=function(successCb,failureCb){
     exec(successCb,failureCb,PLUGIN_NAME,'scanBase64',[]);
 }
-FingerPrintScannerPlugin.scanImage=function(successCb,failureCb){
-    exec(successCb,failureCb,PLUGIN_NAME,'scanImage',[]);
-}
+
 FingerPrintScannerPlugin.checkAndOptPermission=function(successCb,failureCb){
     exec(successCb,failureCb,PLUGIN_NAME,'checkAndOptPermission',[]);
 }
